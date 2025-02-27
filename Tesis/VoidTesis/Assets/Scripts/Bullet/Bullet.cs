@@ -4,10 +4,9 @@ using UnityEngine;
 
 public abstract class Bullet : MonoBehaviour
 {
-    public int Range;
     //public float Damage;
-    public float Speed;
-    public Rigidbody RB;
+    public float speed;
+    public Rigidbody rb;
     //public AudioSource CreateAudio;
     //public AudioSource DestroyAudio;
 }

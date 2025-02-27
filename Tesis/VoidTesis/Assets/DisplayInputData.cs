@@ -20,9 +20,10 @@ public class DisplayInputData : MonoBehaviour
     [SerializeField] public float speed;
     
     [Header("Bullets")]
-    [SerializeField] private GameObject bullet; 
     [SerializeField] private Transform shootTransform;
     [SerializeField] private bool canShoot = true;
+
+    [SerializeField] private PoolingSystem poolingSystem;
     
     private void Start()
     {
@@ -63,10 +64,21 @@ public class DisplayInputData : MonoBehaviour
             }
         }
 
+        // Trigger Shoot Handler
+
+        if (_inputData._rightController.TryGetFeatureValue(CommonUsages.trigger, out var rightTrigger))
+        {
+            if ((rightTrigger >= 1) && canShoot)
+            {
+                StartCoroutine(Shoot());
+            }
+        }
+
         // Shoot
         IEnumerator Shoot()
         {
-            Instantiate(bullet, shootTransform);
+            var newBullet = poolingSystem.AskForObject(shootTransform);
+            newBullet.transform.parent = null;  
             canShoot = false;
             yield return new WaitForSeconds(0.5f);
             canShoot = true;
