@@ -22,8 +22,8 @@ public class DisplayInputData : MonoBehaviour
     [Header("Bullets")]
     [SerializeField] private Transform shootTransform;
     [SerializeField] private bool canShoot = true;
-
     [SerializeField] private PoolingSystem poolingSystem;
+    
     
     private void Start()
     {
@@ -54,13 +54,14 @@ public class DisplayInputData : MonoBehaviour
         }
         
 
-        // Trigger Shoot Handler
+        // Trigger Shoot Handler Left
 
         if (_inputData._leftController.TryGetFeatureValue(CommonUsages.trigger, out var leftTrigger))
         {
             if ((leftTrigger >= 1) && canShoot)
             {
                 StartCoroutine(Shoot());
+                Debug.Log("Disparo");
             }
         }
 
@@ -74,11 +75,11 @@ public class DisplayInputData : MonoBehaviour
             }
         }
 
-        // Shoot
         IEnumerator Shoot()
         {
             var newBullet = poolingSystem.AskForObject(shootTransform);
-            newBullet.transform.parent = null;  
+            newBullet.transform.parent = null;
+
             canShoot = false;
             yield return new WaitForSeconds(0.5f);
             canShoot = true;

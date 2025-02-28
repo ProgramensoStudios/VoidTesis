@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5454348954056686605}
   - component: {fileID: 871245977806363755}
   - component: {fileID: 990486267511737773}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,6 +156,7 @@ MonoBehaviour:
   trailRenderer: {fileID: 990486267511737773}
   rb: {fileID: 5454348954056686605}
   speed: 50
+  reticule: {fileID: 0}
 --- !u!96 &990486267511737773
 TrailRenderer:
   serializedVersion: 3
