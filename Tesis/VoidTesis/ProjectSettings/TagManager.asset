@@ -12,11 +12,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - DefaultTarget
+  - Enemy
+  - SceneObject
+  - Player
+  - Bullet
   - 
   - 
   - 
