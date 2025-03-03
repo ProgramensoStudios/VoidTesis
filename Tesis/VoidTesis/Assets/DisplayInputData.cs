@@ -60,6 +60,7 @@ public class DisplayInputData : MonoBehaviour
         {
             if ((leftTrigger >= 1) && canShoot)
             {
+                _inputData._leftController.SendHapticImpulse(0, 1, 5);
                 StartCoroutine(Shoot());
                 Debug.Log("Disparo");
             }
@@ -69,6 +70,7 @@ public class DisplayInputData : MonoBehaviour
 
         if (_inputData._rightController.TryGetFeatureValue(CommonUsages.trigger, out var rightTrigger))
         {
+            _inputData._rightController.SendHapticImpulse(0, 1, 5);
             if ((rightTrigger >= 1) && canShoot)
             {
                 StartCoroutine(Shoot());
