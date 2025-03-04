@@ -66,6 +66,11 @@ public class BulletPlayer : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+       // gameObject.SetActive(false);
+    }
+
     private void SetTarget(Transform newTarget)
     {
         target = newTarget;

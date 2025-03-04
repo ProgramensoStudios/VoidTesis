@@ -1,22 +1,37 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class DestroyObj : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private MeshRenderer mr;
+    [SerializeField] private ParticleSystem boom;
+    [SerializeField] private Collider col;
+    [SerializeField] private SplineAnimate spline;
+    
+    private void Start()
     {
-        int layer = LayerMask.NameToLayer("Bullet");
-        if (other.gameObject.layer == layer)
-        {
-            gameObject.SetActive(false);
-            StartCoroutine(SetUpAgain());
-        }
+        mr = GetComponent<MeshRenderer>();
+        col = GetComponent<Collider>();
+        spline = GetComponent<SplineAnimate>();
     }
 
-    private IEnumerator SetUpAgain()
+    private void OnTriggerEnter(Collider other)
     {
-        yield return new WaitForSeconds(2);
-        gameObject.SetActive(true);
+        var layer = LayerMask.NameToLayer("Bullet");
+        if (other.gameObject.layer != layer) return;
+        col.enabled = false;
+        spline.enabled = false;
+        StartCoroutine(WaitToDie());
+        boom.Play();
+        mr.enabled = false;
     }
+
+    private IEnumerator WaitToDie()
+    {
+        yield return new WaitForSeconds(boom.main.duration);
+        gameObject.SetActive(false);
+    }
+
 }
