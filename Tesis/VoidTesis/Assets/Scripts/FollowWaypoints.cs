@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,10 +6,23 @@ using UnityEngine;
 public class FollowWaypoints : MonoBehaviour
 {
     [SerializeField] private List<Transform> waypoints;
-    [SerializeField] private float speed = 5f;
+    [SerializeField] public float speed = 5f;
+    [SerializeField] public float currentSpeed;
 
     private Queue<Transform> _waypointQueue = new Queue<Transform>();
     private Transform currentTarget;
+
+    private void Awake()
+    {
+        var wpCount = GameObject.Find("WayPoints").transform.childCount;
+        for (var indexChild = 0; indexChild < wpCount; indexChild++)
+        {
+            var child = GameObject.Find("WayPoints").transform.GetChild(indexChild);
+            waypoints.Add(child);
+        }
+
+        currentSpeed = speed;
+    }
 
     private void Start()
     {
@@ -26,7 +40,7 @@ public class FollowWaypoints : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, currentSpeed * Time.deltaTime);
         if (Vector3.Distance(transform.position, currentTarget.position) < 0.1f)
         {
             _waypointQueue.Enqueue(currentTarget);

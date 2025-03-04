@@ -41,7 +41,7 @@ Material:
     - _Alpha: 0.785
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _Power: 0.67
+    - _Power: 3.1
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:

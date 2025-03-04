@@ -155,7 +155,7 @@ MonoBehaviour:
   lifetime: 3
   trailRenderer: {fileID: 990486267511737773}
   rb: {fileID: 5454348954056686605}
-  speed: 50
+  speed: 150
   reticule: {fileID: 0}
 --- !u!96 &990486267511737773
 TrailRenderer:

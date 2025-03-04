@@ -38,7 +38,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.785
+    - _Alpha: 0.446
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _Power: 1.25
@@ -49,7 +49,7 @@ Material:
     - _Color_1: {r: 0.6886792, g: 0, b: 0.43962988, a: 0}
     - _InsideCol: {r: 0.6886792, g: 0, b: 0.43962988, a: 0}
     - _InsideColor: {r: 1, g: 0.9858491, b: 0.9943132, a: 1}
-    - _OudsideCol: {r: 0.4559898, g: 3.9999998, b: 0, a: 1}
+    - _OudsideCol: {r: 0.11399745, g: 0.99999994, b: 0, a: 1}
     - _OudsideColor: {r: 0.56368756, g: 0, b: 0.8666667, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

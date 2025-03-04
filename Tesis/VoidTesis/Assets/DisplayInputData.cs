@@ -1,35 +1,47 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.XR;
 using TMPro;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.Serialization;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Inputs.Haptics;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using CommonUsages = UnityEngine.XR.CommonUsages;
 
 [RequireComponent(typeof(InputData))]
 public class DisplayInputData : MonoBehaviour
 {
     private InputData _inputData;
-    [Header ("Nave Objects")]
-    [SerializeField] private GameObject nave;
+
+    [Header("Nave Objects")] [SerializeField]
+    private GameObject nave;
+
     [SerializeField] private Rigidbody cabinRigidbody;
-    
-    [Header ("Speed & Vectors 3")]
-    [SerializeField] public float rotSpeed = 0.002f;
+
+    [Header("Speed & Vectors 3")] [SerializeField]
+    public float rotSpeed = 0.002f;
+
     [SerializeField] private Vector3 relativeFwd;
-    [SerializeField] public float speed;
-    
-    [Header("Bullets")]
-    [SerializeField] private Transform shootTransform;
+    [NonSerialized] public float speed = 10f;
+    [SerializeField] public float maxSpeedTurbo;
+    [SerializeField] private float modifiedSpeed;
+
+    [Header("Bullets")] [SerializeField] private Transform shootTransform;
     [SerializeField] private bool canShoot = true;
     [SerializeField] private PoolingSystem poolingSystem;
-    
-    
+    [SerializeField] private bool advancing;
+
+
+
     private void Start()
     {
         _inputData = GetComponent<InputData>();
     }
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -49,42 +61,49 @@ public class DisplayInputData : MonoBehaviour
             if (leftAxis.y >= 0f)
             {
                 relativeFwd = cabinRigidbody.transform.TransformDirection(Vector3.forward);
-                cabinRigidbody.linearVelocity = relativeFwd * (speed * leftAxis.y);
+                modifiedSpeed = Mathf.Clamp(speed, 1, maxSpeedTurbo);
+                cabinRigidbody.linearVelocity = relativeFwd * (modifiedSpeed * leftAxis.y);
             }
         }
-        
 
         // Trigger Shoot Handler Left
-
         if (_inputData._leftController.TryGetFeatureValue(CommonUsages.trigger, out var leftTrigger))
         {
             if ((leftTrigger >= 1) && canShoot)
             {
-                _inputData._leftController.SendHapticImpulse(0, 1, 5);
                 StartCoroutine(Shoot());
-                Debug.Log("Disparo");
             }
         }
-
+        
         // Trigger Shoot Handler
-
         if (_inputData._rightController.TryGetFeatureValue(CommonUsages.trigger, out var rightTrigger))
         {
-            _inputData._rightController.SendHapticImpulse(0, 1, 5);
             if ((rightTrigger >= 1) && canShoot)
             {
                 StartCoroutine(Shoot());
             }
         }
+    }
 
-        IEnumerator Shoot()
-        {
-            var newBullet = poolingSystem.AskForObject(shootTransform);
-            newBullet.transform.parent = null;
+    public void Turbo(float multiplier, float turboDur)
+    {
+        StartCoroutine(StartTurbo(multiplier, turboDur));
+    }
 
-            canShoot = false;
-            yield return new WaitForSeconds(0.5f);
-            canShoot = true;
-        }
+    private IEnumerator StartTurbo(float multiplier, float turboDuration)
+    {
+        speed *= multiplier;
+        yield return new WaitForSeconds(turboDuration);
+        speed = 10;
+    }
+    
+    private IEnumerator Shoot()
+    {
+        var newBullet = poolingSystem.AskForObject(shootTransform);
+        newBullet.transform.parent = null;
+
+        canShoot = false;
+        yield return new WaitForSeconds(0.5f);
+        canShoot = true;
     }
 }
