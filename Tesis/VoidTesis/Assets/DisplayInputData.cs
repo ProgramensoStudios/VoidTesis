@@ -85,15 +85,13 @@ public class DisplayInputData : MonoBehaviour
         }
     }
 
-    public void Turbo(float multiplier, float turboDur)
-    {
-        StartCoroutine(StartTurbo(multiplier, turboDur));
-    }
-
-    private IEnumerator StartTurbo(float multiplier, float turboDuration)
+    public void Turbo(float multiplier)
     {
         speed *= multiplier;
-        yield return new WaitForSeconds(turboDuration);
+    }
+
+    public void TurboExit()
+    {
         speed = 10;
     }
     
