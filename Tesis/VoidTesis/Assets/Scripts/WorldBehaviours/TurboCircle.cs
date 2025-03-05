@@ -11,11 +11,18 @@ namespace WorldBehaviours
         private float speed;
         private float beforeSpeed;
         private DisplayInputData displayInputData;
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
             if (other.gameObject.layer != 9) return;
             displayInputData = other.GetComponent<DisplayInputData>();
-            displayInputData.Turbo(multiplier, turboDuration);
+            displayInputData.Turbo(multiplier);
+
+        }
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.layer != 9) return;
+            displayInputData = other.GetComponent<DisplayInputData>();
+            displayInputData.TurboExit();
         }
     }
 }

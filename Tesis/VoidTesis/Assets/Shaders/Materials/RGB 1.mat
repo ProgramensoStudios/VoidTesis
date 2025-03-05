@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RGB
+  m_Name: RGB 1
   m_Shader: {fileID: -6465566751694194690, guid: 00f47341c72804445a2b0ec94a2bba9b, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -56,9 +56,9 @@ Material:
     - _MaskRadius: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RotSpeed: 1
+    - _RotSpeed: 0.009
     m_Colors:
     - _Color: {r: 0, g: 0, b: 0, a: 1}
-    - _RotAxis: {r: 0, g: 0, b: 1, a: 0}
+    - _RotAxis: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
