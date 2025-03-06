@@ -7,7 +7,7 @@ public class Vibration : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -17,7 +17,7 @@ public class Vibration : MonoBehaviour
         {
             if ((leftTrigger >= 1))
             {
-                Debug.Log("sistemaFuncionando");
+                _inputData._leftController.SendHapticImpulse(0, 1, 1);
             }
         }
     }
