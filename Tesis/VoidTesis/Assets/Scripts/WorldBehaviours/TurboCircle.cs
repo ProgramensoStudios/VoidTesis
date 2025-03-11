@@ -16,6 +16,7 @@ namespace WorldBehaviours
             if (other.gameObject.layer != 9) return;
             displayInputData = other.GetComponent<DisplayInputData>();
             displayInputData.Turbo(multiplier);
+            displayInputData.turboCoroutine = null;
 
         }
         private void OnTriggerExit(Collider other)

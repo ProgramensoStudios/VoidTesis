@@ -17,18 +17,20 @@ public class DisplayInputData : MonoBehaviour
 {
     private InputData _inputData;
 
-    [Header("Nave Objects")] [SerializeField]
+    [Header("Nave Objects")][SerializeField]
     private GameObject nave;
 
     [SerializeField] private Rigidbody cabinRigidbody;
 
-    [Header("Speed & Vectors 3")] [SerializeField]
+    [Header("Speed & Vectors 3")][SerializeField]
     public float rotSpeed = 0.002f;
 
     [SerializeField] private Vector3 relativeFwd;
     [NonSerialized] public float speed = 10f;
     [SerializeField] public float maxSpeedTurbo;
     [SerializeField] private float modifiedSpeed;
+    //public bool canTurbo = true;
+    public Coroutine turboCoroutine;
 
     [Header("Bullets")] [SerializeField] private Transform shootTransform;
     [SerializeField] private bool canShoot = true;
@@ -83,6 +85,16 @@ public class DisplayInputData : MonoBehaviour
                 StartCoroutine(Shoot());
             }
         }
+
+        //Turbo
+        if(_inputData._leftController.TryGetFeatureValue(CommonUsages.gripButton, out var leftGrip) && (_inputData._rightController.TryGetFeatureValue(CommonUsages.gripButton, out var rightGrip)))
+        {
+            if (turboCoroutine != null) return;
+
+            Debug.Log("TurboGripp");
+            turboCoroutine = StartCoroutine(TurboGrip());
+            
+        }
     }
 
     public void Turbo(float multiplier)
@@ -94,6 +106,14 @@ public class DisplayInputData : MonoBehaviour
     {
         speed = 10;
     }
+
+    private IEnumerator TurboGrip()
+    {
+        Turbo(10);
+        yield return new WaitForSeconds(3f);
+        TurboExit();
+        turboCoroutine = null;
+    }
     
     private IEnumerator Shoot()
     {
@@ -101,7 +121,7 @@ public class DisplayInputData : MonoBehaviour
         newBullet.transform.parent = null;
 
         canShoot = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         canShoot = true;
     }
 }
