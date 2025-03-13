@@ -5,14 +5,13 @@ using UnityEngine.Splines;
 
 public class DestroyObj : MonoBehaviour
 {
-    private MeshRenderer mr;
+    [SerializeField]private MeshRenderer mr;
     [SerializeField] private ParticleSystem boom;
     [SerializeField] private Collider col;
     [SerializeField] private SplineAnimate spline;
     
     private void Start()
     {
-        mr = GetComponent<MeshRenderer>();
         col = GetComponent<Collider>();
         spline = GetComponent<SplineAnimate>();
     }

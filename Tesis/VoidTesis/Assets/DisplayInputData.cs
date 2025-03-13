@@ -17,18 +17,23 @@ public class DisplayInputData : MonoBehaviour
 {
     private InputData _inputData;
 
-    [Header("Nave Objects")] [SerializeField]
+    [Header("Nave Objects")][SerializeField]
     private GameObject nave;
 
     [SerializeField] private Rigidbody cabinRigidbody;
 
-    [Header("Speed & Vectors 3")] [SerializeField]
+    [Header("Speed & Vectors 3")][SerializeField]
     public float rotSpeed = 0.002f;
 
     [SerializeField] private Vector3 relativeFwd;
-    [NonSerialized] public float speed = 10f;
+     public float speed;
     [SerializeField] public float maxSpeedTurbo;
+    [SerializeField] private float turboMultiplier;
     [SerializeField] private float modifiedSpeed;
+    [SerializeField] private float baseSpeed;
+    public bool isTurboPressed = true;
+    [SerializeField] private float maxSpeedGripTurbo;
+    public Coroutine turboCoroutine;
 
     [Header("Bullets")] [SerializeField] private Transform shootTransform;
     [SerializeField] private bool canShoot = true;
@@ -40,6 +45,7 @@ public class DisplayInputData : MonoBehaviour
     private void Start()
     {
         _inputData = GetComponent<InputData>();
+        speed = baseSpeed;
     }
 
     // Update is called once per frame
@@ -83,16 +89,36 @@ public class DisplayInputData : MonoBehaviour
                 StartCoroutine(Shoot());
             }
         }
+
+        //Turbo
+        if(_inputData._leftController.TryGetFeatureValue(CommonUsages.gripButton, out var leftGrip) && (_inputData._rightController.TryGetFeatureValue(CommonUsages.gripButton, out var rightGrip)))
+        {
+            if (leftGrip && rightGrip)
+            {
+                isTurboPressed = true;
+                TurboGrip();
+            }
+            else if (!leftGrip && !rightGrip) 
+            { 
+                isTurboPressed = false; 
+                TurboExit();
+            }
+        }
     }
 
     public void Turbo(float multiplier)
     {
         speed *= multiplier;
     }
+    public void TurboGrip()
+    {
+        speed = maxSpeedGripTurbo;
+    }
 
     public void TurboExit()
     {
-        speed = 10;
+        speed = baseSpeed;
+
     }
     
     private IEnumerator Shoot()
@@ -101,7 +127,7 @@ public class DisplayInputData : MonoBehaviour
         newBullet.transform.parent = null;
 
         canShoot = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         canShoot = true;
     }
 }
