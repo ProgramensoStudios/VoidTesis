@@ -75,18 +75,20 @@ public class DisplayInputData : MonoBehaviour
         // Trigger Shoot Handler Left
         if (_inputData._leftController.TryGetFeatureValue(CommonUsages.trigger, out var leftTrigger))
         {
-            if ((leftTrigger >= 1) && canShoot)
+            if ((leftTrigger >= 0.5f) && canShoot)
             {
                 StartCoroutine(Shoot());
+                 _inputData._leftController.SendHapticImpulse(0,0.3f,0.3f);
             }
         }
         
         // Trigger Shoot Handler
         if (_inputData._rightController.TryGetFeatureValue(CommonUsages.trigger, out var rightTrigger))
         {
-            if ((rightTrigger >= 1) && canShoot)
+            if ((rightTrigger >= 0.5f) && canShoot)
             {
                 StartCoroutine(Shoot());
+                _inputData._rightController.SendHapticImpulse(0, 0.3f, 0.3f);
             }
         }
 
