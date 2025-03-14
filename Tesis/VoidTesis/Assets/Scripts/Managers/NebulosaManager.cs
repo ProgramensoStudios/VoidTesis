@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class NebulosaManager : MonoBehaviour
 {
@@ -8,6 +10,15 @@ public class NebulosaManager : MonoBehaviour
     [SerializeField] private Material nebulosaMat;
     [SerializeField] private GameObject splines;
     [SerializeField] private int NebulosaId;
+    private FilmGrain grain;
+    private DepthOfField depth;
+    [SerializeField] private Volume vol;
+
+    private void Awake()
+    {
+        vol.profile.TryGet(out grain);
+        vol.profile.TryGet(out depth);
+    }
 
 
     private void OnEnable()
@@ -24,6 +35,8 @@ public class NebulosaManager : MonoBehaviour
         if (other.gameObject.layer == 9)
         {
             splines.SetActive(true);
+            grain.active = true;
+            depth.active = true;
         }
     }
 
@@ -32,6 +45,8 @@ public class NebulosaManager : MonoBehaviour
         if (other.gameObject.layer == 9)
         {
            splines.SetActive(false);
+           grain.active = false;
+           depth.active = false;
         }
     }
 
@@ -41,6 +56,8 @@ public class NebulosaManager : MonoBehaviour
         if (enems.Count <= 0)
         {
             NebulosaCleared();
+            grain.active = false;
+           depth.active= false;
         }
     }
 
